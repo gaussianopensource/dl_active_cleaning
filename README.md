@@ -1,5 +1,5 @@
 # A Deep-Learning-based System for Indoor Active Cleaning (IROS 2022)
-### [Project Page](https://gaussianopensource.github.io/projects/active_cleaning/) | [Paper](https://gaussianopensource.github.io/projects/active_cleaning/files/IROS_2022_GS.pdf)
+### [Project Page](https://gaussianopensource.github.io/projects/active_cleaning/) | [Paper](https://gaussianopensource.github.io/projects/active_cleaning/files/IROS_2022_GS.pdf) | [Dataset](https://drive.google.com/file/d/1HBkpmn9f-fprTxk8R75j7WS4eDw1mnlp/view?usp=sharing)
 Dataset and evaluation code our IROS 2022 paper.<br>
 
 A Deep-Learning-based System for Indoor Active Cleaning](https://gaussianopensource.github.io/projects/active_cleaning/) <br>
@@ -20,31 +20,57 @@ HD10K is the largest indoor real-life dirt dataset to date for cleaning robotics
 
 <img src='assets/imgs/dataset_sample.png'/>
 
-### Dataset Statistics
+### Dataset Structure
 
-For training, 2 scenes are included each with 2000 extracted key-frames, while 2 video sequences with 1000 frames each are provided for testing. For training data, solid wastes and liquid stains are separately collected and labeled, while for testing data, all dirt are collected and annotated together.
+The HD10K dataset can be downloaded from [Google Drive](https://drive.google.com/file/d/1HBkpmn9f-fprTxk8R75j7WS4eDw1mnlp/view?usp=sharing). The dataset has the following structure:
 
-| Split             | Training    | Testing     |
-| ----------------- | ----------- | ----------- |
-| **Solid Wastes**  | **Scene 0** | **Scene 1** |
-| Image             | 2,000       | 2,000       |
-| Annotations       | 2,625       | 3,691       |
-| **Liquid Stains** | **Scene 0** | **Scene 1** |
-| Image             | 2,000       | 2,000       |
-| Annotations       | 854         | 2,996       |
+```
+├── test
+│   ├── images
+│   │   ├── scene_1
+│   │   └── scene_2
+│   ├── liquid_dirts_masks
+│   │   ├── scene_1
+│   │   └── scene_2
+│   ├── solid_dirts_bboxes
+│   │   ├── scene_1
+│   │   └── scene_2
+│   └── tfs
+│       ├── scene_1
+│       └── scene_2
+└── train
+    ├── liquid_dirts
+    │   ├── images
+    │   │   ├── scene_0
+    │   │   └── scene_1
+    │   └── liquid_dirts_masks
+    │       ├── scene_0
+    │       └── scene_1
+    └── solid_dirts
+        ├── images
+        │   ├── scene_0
+        │   └── scene_1
+        └── solid_dirts_bboxes
+            ├── scene_0
+            └── scene_1
+```
 
-Our dataset is not only the largest in the field compared with other benchmark datasets, but also covers the most comprehensive scenarios with both segmentation masks and bounding boxes presented. In total, our dataset consists of 10,000 images with 10,118 bounding boxes and 6,694 polygons for solid wastes and liquid stains, respectively.
+As stated in the paper, the dataset is split into a training set and a test set. In the test set, in addition to the solid dirts bounding boxes and the liquid dirts masks annotation, we provide the camera parameters for each frame in the test set, which includes a homography matrix that transfers image coordinates to BEV coordinates, and the extrinsics of each frame.
 
-### Dataset Usage
+### Bounding Box Format
 
+Our bounding box annotations follow the COCO format, where each image has a text file with the same basename. In each text file, a bounding box is represented as one line with the following format:
 
+```
+# Cls cx cy w h
+0 0.284078 0.103906 0.029188 0.010229
+```
 
-## Evaluation Protocol
+### Segmentation Mask format
 
+For each image, we provide a PNG file that stores pixel-level mask annotation, where in RGB format, [0, 0, 0] indicates background and [255, 0, 0] indicates liquid dirts.
 
-
-
-## Citation
+## Citation 
 
 If you find our work helpful to your research, please cite our paper:
 ```
